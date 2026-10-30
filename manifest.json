@@ -1,0 +1,75 @@
+{
+  "manifest_version": 3,
+  "name": "IVAC SLOT AUTOMATION PRO",
+  "version": "9.2",
+  "minimum_chrome_version": "111",
+  "description": "Continuous IVAC appointment automation — Run / Config / Logs, round-robin date booking, payment-link capture. Personal use.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "ivac-slot-automation-pro@ivacbd.addon",
+      "strict_min_version": "128.0"
+    }
+  },
+  "permissions": [
+    "storage",
+    "unlimitedStorage",
+    "tabs",
+    "notifications",
+    "alarms"
+  ],
+"host_permissions": [
+    "*://*.ivacbd.com/*",
+    "https://ivac-bd.vercel.app/*",
+    "https://api.2captcha.com/*"
+],
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "Toggle IVAC SLOT AUTOMATION PRO panel",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.ivacbd.com/*"],
+      "js": ["src/bridge.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["*://*.ivacbd.com/*"],
+      "js": [
+        "src/net-hook.js"
+      ],
+      "world": "MAIN",
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["*://*.ivacbd.com/*"],
+      "js": [
+        "src/core.js",
+        "src/license.js",
+        "src/otp-relay.js",
+        "src/proxy.js",
+        "src/attention.js",
+        "src/verification.js",
+        "src/steps.js",
+        "src/controller.js",
+        "src/panel-css.js",
+        "src/ui.js",
+        "src/boot.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}
